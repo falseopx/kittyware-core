@@ -16,6 +16,7 @@ getgenv().esp_settings = {
     unlocktracers = false,
     textsize = 16,
     bottomtext = "catgirls > all",
+    boxoutline = false,
     colors = {
         boxes = Color3.fromRGB(255, 255, 255),
         tracers = Color3.fromRGB(255, 255, 255),
@@ -119,7 +120,7 @@ local function esp(v)
                 if esp_settings.boxes then
                     BoxOutline.Size = Vector2.new(2500 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
                     BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
-                    BoxOutline.Visible = true
+                    BoxOutline.Visible = esp_settings.boxoutline
     
                     Box.Size = Vector2.new(2500 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
                     Box.Position = Vector2.new(RootPosition.X - Box.Size.X / 2, RootPosition.Y - Box.Size.Y / 2)
