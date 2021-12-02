@@ -69,7 +69,7 @@ local function esp(v)
     Name.Outline = false
 
     game:GetService("RunService").RenderStepped:Connect(function()
-        if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
+        if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and (not esp_settings.teammates or v.TeamColor = lplr.TeamColor) then
             local Vector, onScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
             local Distance = (CurrentCamera.CFrame.p - v.Character.HumanoidRootPart.Position).Magnitude
             local RootPart = v.Character.HumanoidRootPart
@@ -117,7 +117,7 @@ local function esp(v)
                 end
                 if esp_settings.names then
                     Name.Text = tostring(v.Name)
-                    Name.Position = Vector2.new(workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).X, workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).Y - 25)
+                    Name.Position = Vector2.new(workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).X, workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).Y - 30)
                     Name.Visible = true
                     Name.Size = esp_settings.textsize
                     Name.Color = esp_settings.colors.names
