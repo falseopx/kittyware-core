@@ -105,7 +105,7 @@ local function esp(v)
                 
             if esp_settings.chams and v.Character.Head:FindFirstChild("Body") == nil then
                 for i,v in pairs(v.Character:GetChildren()) do
-                    if v:IsA("MeshPart") or v.Name == "Head" then
+                    if v:IsA("BasePart") then
                         AttachChams(v, "Back")
                         AttachChams(v, "Front")
                         AttachChams(v, "Top")
