@@ -9,38 +9,22 @@ getgenv().esp_settings = {
     boxes = false,
     names = false,
     tracers = false,
-    chams = false,
-    font = 3,
+    font = "Monospace",
     teammates = false,
-    visibleonly = false,
     unlocktracers = false,
     textsize = 16,
-    bottomtext = "catgirls > all",
     boxoutline = false,
+    textoutline = false,
     colors = {
         boxes = Color3.fromRGB(255, 255, 255),
         tracers = Color3.fromRGB(255, 255, 255),
         names = Color3.fromRGB(255, 255, 255),
-        chams = Color3.fromRGB(255, 255, 255),
         bottomtext = Color3.fromRGB(255, 255, 255)
     }
 }
 
 assert(getgenv().esp_settings, "settings not found")
 
-function AttachChams(parent, face)
-	local SurfaceGui = Instance.new("SurfaceGui",parent) 
-	SurfaceGui.Parent = parent
-	SurfaceGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	SurfaceGui.Face = Enum.NormalId[face]
-	SurfaceGui.LightInfluence = 0
-	SurfaceGui.ResetOnSpawn = false
-	SurfaceGui.Name = "Body"
-	SurfaceGui.AlwaysOnTop = true
-	local Frame = Instance.new("Frame",SurfaceGui)
-	Frame.BackgroundColor3 = esp_settings.colors.chams
-	Frame.Size = UDim2.new(1,0,1,0)
-end
 
 local function esp(v)
     local BoxOutline = Drawing.new("Square")
@@ -82,16 +66,7 @@ local function esp(v)
     Name.Color = Color3.new(1,1,1)
     Name.Size = 12
     Name.Center = true
-    Name.Outline = true
-    
-
-    local Gun = Drawing.new("Text")
-    Gun.Transparency = 1
-    Gun.Visible = false
-    Gun.Color = Color3.new(1,1,1)
-    Gun.Size = 12
-    Gun.Center = true
-    Gun.Outline = true
+    Name.Outline = false
 
     game:GetService("RunService").RenderStepped:Connect(function()
         if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
@@ -102,19 +77,6 @@ local function esp(v)
             local RootPosition, RootVis = worldToViewportPoint(CurrentCamera, RootPart.Position)
             local HeadPosition = worldToViewportPoint(CurrentCamera, Head.Position + Vector3.new(0,0.5,0))
             local LegPosition = worldToViewportPoint(CurrentCamera, RootPart.Position - Vector3.new(0,3,0))
-                
-            if esp_settings.chams and v.Character.Head:FindFirstChild("Body") == nil then
-                for i,v in pairs(v.Character:GetChildren()) do
-                    if v:IsA("BasePart") then
-                        AttachChams(v, "Back")
-                        AttachChams(v, "Front")
-                        AttachChams(v, "Top")
-                        AttachChams(v, "Bottom")
-                        AttachChams(v, "Right")
-                        AttachChams(v, "Left")
-                    end
-                end
-            end
 
             if onScreen then
                 if esp_settings.boxes then
@@ -155,31 +117,22 @@ local function esp(v)
                 end
                 if esp_settings.names then
                     Name.Text = tostring(v.Name)
-                    Name.Position = Vector2.new(workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).X, workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).Y - 30)
+                    Name.Position = Vector2.new(workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).X, workspace.Camera:WorldToViewportPoint(v.Character.Head.Position).Y - 25)
                     Name.Visible = true
                     Name.Size = esp_settings.textsize
                     Name.Color = esp_settings.colors.names
+                    Name.Outline = esp_settings.textoutline
                     if esp_settings.font == "UI" then
                         Name.Font = 0
-                        Gun.Font = 0
                     elseif esp_settings.font == "System" then
                         Name.Font = 1
-                        Gun.Font = 1
                     elseif esp_settings.font == "Plex" then
                         Name.Font = 2
-                        Gun.Font = 2
                     elseif esp_settings.font == "Monospace" then
                         Name.Font = 3
-                        Gun.Font = 3
                     end
-                    Gun.Size = esp_settings.textsize
-                    Gun.Text = tostring(esp_settings.bottomtext)
-                    Gun.Color = esp_settings.colors.bottomtext
-                    Gun.Position = Vector2.new(LegPosition.X, LegPosition.Y + 10)
-                    Gun.Visible = true
                 else
                     Name.Visible = false
-                    Gun.Visible = false
                 end
             else
                 BoxOutline.Visible = false
@@ -188,7 +141,6 @@ local function esp(v)
                 HealthBar.Visible = false
                 Tracer.Visible = false
                 Name.Visible = false
-                Gun.Visible = false
             end
         else
             BoxOutline.Visible = false
@@ -197,7 +149,6 @@ local function esp(v)
             HealthBar.Visible = false
             Tracer.Visible = false
             Name.Visible = false
-            Gun.Visible = false
         end
     end)
 end
